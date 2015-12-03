@@ -1,7 +1,7 @@
 require 'statsd-ruby'
 require 'docker'
 
-$statsd = Statsd.new ENV["STATSD_ENDPOINT"], 8125
+$statsd = Statsd.new ENV["STATSD_HOST"], ENV["STATSD_PORT"]
 
 module Docker
   class CloseConnectionError < StandardError; end
