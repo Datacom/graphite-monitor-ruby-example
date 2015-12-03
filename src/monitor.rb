@@ -39,6 +39,7 @@ def analyze_container(container)
 
   data = container.exec(["ps", "-eo", "rss,args"])[0].join("\n").split("\n")
   unicorns = data.grep(/unicorn/).map(&:to_i)
+  pumas = data.grep(/puma/).map(&:to_i)
   sidekiqs = data.grep(/sidekiq/).map(&:to_i)
 
   result = {}
@@ -46,6 +47,11 @@ def analyze_container(container)
   if unicorns.length > 0
     result["unicorn.max_rss"] = unicorns.max
     result["unicorn.median_rss"] = median(unicorns)
+  end
+
+  if pumas.length > 0
+    result["puma.max_rss"] = pumas.max
+    result["puma.median_rss"] = median(pumas)
   end
 
   if sidekiqs.length > 0
